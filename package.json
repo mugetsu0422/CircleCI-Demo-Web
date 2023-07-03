@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node app"
   },
   "repository": {
@@ -36,5 +36,8 @@
     "numeral": "^2.0.6",
     "redis": "^4.6.5",
     "uuidv4": "^6.2.13"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
   }
 }
