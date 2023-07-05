@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 import { PAGE_LIMIT } from './constants.js';
 import { account } from './constants.js';
 import moment from 'moment';
+import { calcStreak } from "../utils/helper.js";
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -305,9 +306,14 @@ router.get('/dailytest', async function (req, res) {
             }else {
                 streak = 1
             }
+            console.log(streak);
             await learnerService.updateLoginStreak(res.locals.authUser.userid, timestamp, streak)
         }
     }
+
+    timestamp.setDate(timestamp.getDate() + 2)
+    console.log(calcStreak(timestamp, streakinfo));
+    console.log(streakinfo);
 
     res.render('vwLearner/dailyTest', {
         empty: list.length === 0,
