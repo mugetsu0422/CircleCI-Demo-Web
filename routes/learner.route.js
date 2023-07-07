@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 import { PAGE_LIMIT } from './constants.js';
 import { account } from './constants.js';
 import moment from 'moment';
-import { calcStreak } from "../utils/learner.helper.js";
+import { calcStreak } from "../utils/helper.js";
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -292,7 +292,21 @@ router.get('/dailytest', async function (req, res) {
             await learnerService.loginStreak(dailyLogin)
         }
         else{
-            let streak = calcStreak(timestamp, streakinfo)
+            let streak = streakinfo.streak
+            let lastdaylogin = streakinfo.lastlogindate
+            
+            const lastdayloginUTC = new Date(lastdaylogin).toISOString().slice(0,10)
+            const timestampUTC = timestamp.toISOString().slice(0, 10)
+            const yesterday = new Date((timestamp.getTime() - 86400000)).toISOString().slice(0, 10)
+
+            if (lastdayloginUTC === yesterday && timestampUTC !== yesterday) {
+                streak = streak + 1
+            }else if(timestampUTC === lastdayloginUTC){
+                streak
+            }else {
+                streak = 1
+            }
+            console.log(streak);
             await learnerService.updateLoginStreak(res.locals.authUser.userid, timestamp, streak)
         }
     }
