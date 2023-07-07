@@ -11,6 +11,6 @@ export const calcStreak = (timestamp, streakinfo) => {
   } else if (timestampUTC === lastdayloginUTC) {
     return streak
   } else {
-    return 0
+    return 1
   }
 }
